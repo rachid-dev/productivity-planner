@@ -63,7 +63,7 @@
                 }
               ]
             },
-            "developement": {
+            "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
@@ -86,11 +86,11 @@
             "staging": {
               "buildTarget": "productivity-planner:build:staging"
             },
-            "developement": {
-              "buildTarget": "productivity-planner:build:developement"
+            "development": {
+              "buildTarget": "productivity-planner:build:development"
             }
           },
-          "defaultConfiguration": "developement"
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
