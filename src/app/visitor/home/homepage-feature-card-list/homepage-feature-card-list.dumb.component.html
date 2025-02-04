@@ -1,0 +1,20 @@
+<div class="container text-center mt-5">
+    <div class="row d-flex justify-content-evenly">
+        @for(featureCard of featureCardList(); track featureCard.name){
+            <div class="col" data-testid="feature-card">
+                <div class="card">
+                    <div class="card-header" data-testid="feature-card-title">
+                      {{featureCard.name}}
+                    </div>
+                    <div class="card-body">
+                        <i class="bi bi-{{featureCard.icon}}" style="font-size: 2rem; color: rgba(255, 200, 0, 0.841);" data-testid="feature-card-icon"></i>
+                        <p class="card-text" data-testid="feature-card-description">{{featureCard.description}}</p>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+
+    </div>
+</div>
