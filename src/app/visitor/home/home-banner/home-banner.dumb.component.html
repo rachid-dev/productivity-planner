@@ -1,3 +1,9 @@
-<h1 data-test-id="banner-title" class="display-4 fw-bold">{{title()}}</h1>
-<p data-test-id="banner-description" class="lead mt-3">{{description()}}</p>
-<a data-test-id="banner-button" href="#" class="btn btn-success btn-lg" (click)="clicked.emit()">{{button()}}</a>
+<h1 data-test-id="banner-title" class="display-4 fw-bold">{{ title() }}</h1>
+<p data-test-id="banner-description" class="lead mt-3">{{ description() }}</p>
+<a
+  data-test-id="banner-button"
+  href="#"
+  class="btn btn-success btn-lg"
+  (click)="clicked.emit()"
+  >{{ button() }}</a
+>

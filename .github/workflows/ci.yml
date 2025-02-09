@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.12]
+        node-version: [22.13]
 
     steps:
       # Vérification du dépôt
@@ -30,7 +30,7 @@ jobs:
 
       # Audit de sécurité
       # - name: Audit
-        # run: npm audit
+      # run: npm audit
 
       # Vérification de la signature des audits
       - name: Audit Signature
@@ -43,7 +43,7 @@ jobs:
       # Tests
       - name: Test
         run: npm run test
-      
+
       # Set environment variables
       - name: Create environment file
         run: |
