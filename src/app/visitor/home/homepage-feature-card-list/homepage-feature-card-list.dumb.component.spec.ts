@@ -21,70 +21,74 @@ describe('HomepageFeatureCardListDumbComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HomepageFeatureCardListDumbComponent]
-    })
-    .compileComponents();
+      imports: [HomepageFeatureCardListDumbComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HomepageFeatureCardListDumbComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput("featureCardList", featureCardList)
+    fixture.componentRef.setInput('featureCardList', featureCardList);
     fixture.detectChanges();
   });
 
   beforeEach(() => {
     cardList = fixture.debugElement.queryAll(
-      By.css('[data-testid="feature-card"]')
+      By.css('[data-testid="feature-card"]'),
     );
 
     cardTitleList = fixture.debugElement.queryAll(
-      By.css('[data-testid="feature-card-title"]')
+      By.css('[data-testid="feature-card-title"]'),
     );
 
     cardDescriptionList = fixture.debugElement.queryAll(
-      By.css('[data-testid="feature-card-description"]')
+      By.css('[data-testid="feature-card-description"]'),
     );
 
     cardIconList = fixture.debugElement.queryAll(
-      By.css('[data-testid="feature-card-icon"]')
+      By.css('[data-testid="feature-card-icon"]'),
     );
-    
-  })
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display the correct number of feature cards',() => {
+  it('should display the correct number of feature cards', () => {
     expect(cardList).toHaveLength(2);
-  })
+  });
 
-  it('should display nothing if feature list is empty',()=>{
-    fixture.componentRef.setInput("featureCardList", []);
+  it('should display nothing if feature list is empty', () => {
+    fixture.componentRef.setInput('featureCardList', []);
     fixture.detectChanges();
 
     cardList = fixture.debugElement.queryAll(
-      By.css('[data-testid="feature-card"]')
+      By.css('[data-testid="feature-card"]'),
     );
 
     expect(cardList).toHaveLength(0);
-  })
+  });
 
-  it('should display the correct title in each card',()=>{
-    cardTitleList.forEach((cardTitle, index)=>{
-      expect(cardTitle.nativeElement.textContent).toContain(featureCardList[index].name);
-    })
-  })
+  it('should display the correct title in each card', () => {
+    cardTitleList.forEach((cardTitle, index) => {
+      expect(cardTitle.nativeElement.textContent).toContain(
+        featureCardList[index].name,
+      );
+    });
+  });
 
-  it('should display the correct icon in each card',()=>{
+  it('should display the correct icon in each card', () => {
     cardIconList.forEach((cardIcon, index) => {
       expect(cardIcon.nativeElement.classList).toContain(`bi`);
-      expect(cardIcon.nativeElement.classList).toContain(`bi-${featureCardList[index].icon}`);
-    })
-  })
+      expect(cardIcon.nativeElement.classList).toContain(
+        `bi-${featureCardList[index].icon}`,
+      );
+    });
+  });
 
-  it('should display the correct description in each card',()=>{
-    cardDescriptionList.forEach((cardDescription, index) =>{
-      expect(cardDescription.nativeElement.textContent).toContain(featureCardList[index].description);
-    })
-  })
+  it('should display the correct description in each card', () => {
+    cardDescriptionList.forEach((cardDescription, index) => {
+      expect(cardDescription.nativeElement.textContent).toContain(
+        featureCardList[index].description,
+      );
+    });
+  });
 });
