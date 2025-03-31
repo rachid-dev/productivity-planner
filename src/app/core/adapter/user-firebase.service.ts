@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ignoreElements, Observable} from 'rxjs';
 import { UserService } from '../port/user.service';
-import { environment } from '../../../environments/environment.dev';
+import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../entity/user.interface';
 
