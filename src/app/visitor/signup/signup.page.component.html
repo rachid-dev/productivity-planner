@@ -84,32 +84,24 @@
                 id="password" 
                 aria-describedby="passwordHelp"
                 required
-                minlength="8"
-                pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]{8,}$"
+                minlength="8"   
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$"
                 [class.is-invalid]="passwordField.dirty && passwordField.invalid"
                 
             />
             @if(passwordField.dirty){
                 @if(passwordField.hasError('required')){
-                    <div class="invalid-feedback">Password is required.</div>
+                    <div class="form-text text-danger" data-testid="error-password-required">Password is required.</div>
                 }
                 @if(passwordField.hasError('minlength')){
-                    <div class="invalid-feedback">Password must be at least 8 characters.</div>
+                    <div class="form-text text-danger" data-testid="error-password-minlength">
+                        Password must contain at least 8 characters.
+                    </div>
                 }
                 @if(passwordField.hasError('pattern')){
-                    @if(!passwordField.value.match('(?=.*[A-Z])')){
-                        <div class="invalid-feedback">Password must contain at least one uppercase letter.</div>
-                    }
-                    @if(!passwordField.value.match('(?=.*[a-z])')){
-                        <div class="invalid-feedback">Password must contain at least one lowercase letter.</div>
-                    }
-                    @if(!passwordField.value.match('(?=.*[0-9])')){
-                        <div class="invalid-feedback">Password must contain at least one digit(0-9).</div>
-                    }
-                    @if(!passwordField.value.match('(?=.*[@$!%*?&])')){
-                        <div class="invalid-feedback">Password must contain at least one special character from the following list : &#64;$!%*?&</div>
-                    }
-                    
+                    <div class="form-text text-danger" data-testid="error-password-pattern">
+                        Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (&#64;$!%*?&).
+                    </div>
                 }
             }
         </div>        
