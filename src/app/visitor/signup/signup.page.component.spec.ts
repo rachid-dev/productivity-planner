@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignupPageComponent } from './signup.page.component';
 import { UserStore } from '../../core/store/user.store';
-import { AuthenticationService } from 'src/app/core/authentication.service';
+import { AuthenticationService } from 'src/app/core/port/authentication.service';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
