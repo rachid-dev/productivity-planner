@@ -1,0 +1,152 @@
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+
+    <!-- Name -->
+    <div class="row justify-content-center">
+        <div class="mt-3 w-25">
+            <label for="name" class="form-label">Name</label>
+            <input
+                data-testid="name"
+                #nameField="ngModel"
+                type="text" 
+                [(ngModel)]="name" 
+                name="name" 
+                class="form-control"
+                id="name" aria-describedby="nameHelp" 
+                required minlength="3" maxlength="20"
+                pattern="[a-zA-Z]*"
+                [class.is-invalid]="nameField.dirty && nameField.invalid"
+            />
+            @if(nameField.dirty){
+                @if(nameField.hasError('required')){
+                    <div class="form-text text-danger" data-testid="error-name-required">Name is required.</div>
+                }
+                @if(nameField.hasError('minlength')){
+                    <div class="form-text text-danger" data-testid="error-name-minlength">
+                        Name must contain at least {{ nameField.getError('minlength').requiredLength }} caracters.
+                    </div>
+                }
+                @if(nameField.hasError('maxlength')) {
+                    <div class="form-text text-danger" data-testid="error-name-maxlength">
+                      Name must contain maximum {{ nameField.getError('maxlength').requiredLength }} caracters.
+                    </div>
+                }
+                @if(nameField.hasError('pattern')){
+                    <div class="form-text text-danger" data-testid="error-name-pattern">
+                        Name must contain only letters.
+                    </div>
+                }
+            }
+        </div>        
+    </div>
+
+    <!-- Email -->
+    <div class="row justify-content-center">
+        <div class="mt-3 w-25">
+            <label for="email" class="form-label">Email</label>
+            <input
+                data-testid="email"
+                #emailField="ngModel"
+                type="email" 
+                [(ngModel)]="email" 
+                name="email" 
+                class="form-control" 
+                id="email" 
+                aria-describedby="emailHelp"
+                required
+                email
+                [class.is-invalid]="emailField.dirty && emailField.invalid"
+            />
+            @if(emailField.dirty){
+                @if(emailField.hasError('required')){
+                    <div class="form-text text-danger" data-testid="error-email-required">
+                        Email is required.
+                    </div>
+                }
+                @if(emailField.hasError('email')) {
+                    <div class="form-text text-danger" data-testid="error-email-pattern">
+                      Email must be valid.
+                    </div>
+                }
+            }       
+        </div>
+    </div>
+
+    <!-- Password -->
+    <div class="row justify-content-center">
+        <div class="mt-3 w-25">
+            <label for="password" class="form-label">Password</label>
+            <input
+                data-testid="password" 
+                #passwordField="ngModel"
+                type="password" 
+                [(ngModel)]="password" 
+                name="password" class="form-control" 
+                id="password" 
+                aria-describedby="passwordHelp"
+                required
+                minlength="8"   
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$"
+                [class.is-invalid]="passwordField.dirty && passwordField.invalid"
+                
+            />
+            @if(passwordField.dirty){
+                @if(passwordField.hasError('required')){
+                    <div class="form-text text-danger" data-testid="error-password-required">Password is required.</div>
+                }
+                @if(passwordField.hasError('minlength')){
+                    <div class="form-text text-danger" data-testid="error-password-minlength">
+                        Password must contain at least 8 characters.
+                    </div>
+                }
+                @if(passwordField.hasError('pattern')){
+                    <div class="form-text text-danger" data-testid="error-password-pattern">
+                        Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (&#64;$!%*?&).
+                    </div>
+                }
+            }
+        </div>        
+    </div>
+
+    <!-- ConfirmPassword -->
+    <div class="row justify-content-center">
+        <div class="mt-3 w-25">
+            <label for="confirm-password" class="form-label">Confirm password</label>
+            <input
+                data-testid="confirm-password"
+                #confirmPasswordField = "ngModel"
+                type="password" 
+                [(ngModel)]="confirmPassword" 
+                name="confirm-password" 
+                class="form-control" 
+                id="confirm-password" 
+                aria-describedby="confirmPasswordHelp"
+                required
+                [class.is-invalid]="confirmPasswordField.dirty && !isPasswordMatch()"
+            />
+                            
+            @if(confirmPasswordField.dirty && !isPasswordMatch()){
+                <div class="form-text text-danger" data-testid="error-confirm-password-match">
+                    Passwords do not match.
+                </div>
+            } 
+                
+    
+         
+        </div>        
+    </div>
+
+    <!-- Sign Up -->
+    <div class="row justify-content-center">
+        <div class="mt-3 w-25">
+            <button 
+                data-testid="submit-button"
+                type="submit" 
+                class="btn btn-primary form-control" 
+                [disabled]="form.invalid || !isPasswordMatch()"
+            >
+                Sign Up
+            </button>
+        </div>
+    </div>  
+    
+</form>
