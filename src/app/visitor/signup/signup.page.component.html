@@ -52,16 +52,20 @@
                 class="form-control" 
                 id="email" 
                 aria-describedby="emailHelp"
-                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                 required
+                email
                 [class.is-invalid]="emailField.dirty && emailField.invalid"
             />
             @if(emailField.dirty){
                 @if(emailField.hasError('required')){
-                    <div class="invalid-feedback">Email is required.</div>
+                    <div class="form-text text-danger" data-testid="error-email-required">
+                        Email is required.
+                    </div>
                 }
-                @if(emailField.hasError('pattern')){
-                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                @if(emailField.hasError('email')) {
+                    <div class="form-text text-danger" data-testid="error-email-pattern">
+                      Email must be valid.
+                    </div>
                 }
             }       
         </div>
