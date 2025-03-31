@@ -11,7 +11,7 @@ import { Visitor } from '../../core/entity/user.interface';
   styleUrl: './signup.page.component.scss'
 })
 export class SignupPageComponent {
-  readonly userStore = inject(UserStore);
+  readonly store = inject(UserStore);
   readonly name = signal("");
   readonly email = signal("");
   readonly password = signal("");
@@ -26,7 +26,7 @@ export class SignupPageComponent {
       email : this.email(),
       password : this.password()
     }
-    this.userStore.register(visitor);
+    this.store.register(visitor);
     
   }
 }
