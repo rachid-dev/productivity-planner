@@ -121,17 +121,16 @@
                 id="confirm-password" 
                 aria-describedby="confirmPasswordHelp"
                 required
-                [class.is-invalid]="confirmPasswordField.dirty && (confirmPasswordField.invalid || !isPasswordMatchValid())"
+                [class.is-invalid]="confirmPasswordField.dirty && !isPasswordMatch()"
             />
-            @if(confirmPasswordField.dirty){
-                @if(confirmPasswordField.hasError('required')){
-                    <div class="invalid-feedback">Confirm password is required.</div>
-                }            
-                @if(!isPasswordMatchValid()){
-                    <div class="invalid-feedback">Passwords must match.</div>
-                } 
+                            
+            @if(confirmPasswordField.dirty && !isPasswordMatch()){
+                <div class="form-text text-danger" data-testid="error-confirm-password-match">
+                    Passwords do not match.
+                </div>
+            } 
                 
-            }
+    
          
         </div>        
     </div>
@@ -143,7 +142,7 @@
                 data-testid="submit-button"
                 type="submit" 
                 class="btn btn-primary form-control" 
-                [disabled]="signupForm.invalid || !isPasswordMatchValid()"
+                [disabled]="signupForm.invalid || !isPasswordMatch()"
             >
                 Sign Up
             </button>

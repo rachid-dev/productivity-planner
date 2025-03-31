@@ -1,7 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../core/authentication.service';
+import { UserStore } from '../../core/store/user.store';
+import { Visitor } from '../../core/entity/user.interface';
 
 @Component({
   standalone: true,
@@ -10,19 +11,22 @@ import { AuthenticationService } from '../../core/authentication.service';
   styleUrl: './signup.page.component.scss'
 })
 export class SignupPageComponent {
-  readonly authenticationService = inject(AuthenticationService);
+  readonly userStore = inject(UserStore);
   readonly name = signal("");
   readonly email = signal("");
   readonly password = signal("");
   readonly confirmPassword = signal("");
-  readonly isPasswordMatchValid = computed(()=>(this.password() === this.confirmPassword()))
+  readonly isPasswordMatch = computed(()=>(this.password() === this.confirmPassword()))
   readonly router = inject(Router);
   
 
   onSubmit(){
-    this.authenticationService.register(this.email(), this.password()).subscribe(response => (
-      console.log(response)
-    ))
-    // this.router.navigate(['dashboard']);
+    const visitor : Visitor = {
+      name : this.name(),
+      email : this.email(),
+      password : this.password()
+    }
+    this.userStore.register(visitor);
+    
   }
 }
