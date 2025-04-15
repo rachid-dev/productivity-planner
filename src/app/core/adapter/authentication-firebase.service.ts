@@ -1,14 +1,15 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { environment } from '@env/environment';
-import { AuthenticationService, LoginResponse, RegisterResponse } from '../port/authentication.service';
-
 /**
  * Represents the payload of the response received when registering a new user in firebase.
  *  
  * @see https://firebase.google.com/docs/reference/rest/auth?hl=fr#section-create-email-password
  */
+
+import { HttpClient } from "@angular/common/http";
+import { Injectable, inject } from "@angular/core";
+import { EmailAlreadyTakenError } from "@app/visitor/signup/domain/email-already-taken.error";
+import { environment } from "@env/environment";
+import { Observable, map, catchError, of, throwError } from "rxjs";
+import { AuthenticationService, RegisterResponse, LoginResponse } from "../port/authentication.service";
 
 interface FirebaseResponseSignup{ 
   idToken: string;
@@ -42,7 +43,14 @@ export class AuthenticationFirebaseService implements AuthenticationService{
         jwtRefreshToken : response.refreshToken,
         expiresIn : response.expiresIn,
         userId : response.localId
-      }))
+      })),
+      catchError(error => {
+        if(error.error.error.message === 'EMAIL_EXISTS') {
+          return of(new EmailAlreadyTakenError(email));
+        }
+
+        return throwError(() => error);
+      })
     );
   }
 
