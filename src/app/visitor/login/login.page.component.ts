@@ -13,16 +13,15 @@ export class LoginPageComponent {
   readonly #loginUserUseCase = inject(LoginUserUseCase)
   readonly email = signal('');
   readonly password = signal('');
-  readonly invalidCredentialErrorMessage = signal('');
-  readonly invalidCredentialError = computed(()=>{
-    return !(this.invalidCredentialErrorMessage() === '')
-  });
+  readonly invalidCredentialError = signal<InvalidCredentialError | null>(null);
 
   onSubmit() {
     this.#loginUserUseCase.execute(this.email(), this.password())
-    .catch((invalidCredentialError) => (
-      this.invalidCredentialErrorMessage.set(invalidCredentialError.message)
-    ))
+    .catch((error) => {
+      if(error instanceof InvalidCredentialError){
+        this.invalidCredentialError.set(error);
+      }
+    })
     }
 
 }
