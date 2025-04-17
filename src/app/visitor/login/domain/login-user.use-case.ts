@@ -30,10 +30,10 @@ export class LoginUserUseCase {
     localStorage.setItem("jwtRefreshToken", jwtRefreshToken);
 
     // 3. Get user data from backend server
-    const user = await firstValueFrom(this.#userService.get(userId, bearerToken));
+    const user = await firstValueFrom(this.#userService.fetch(userId, bearerToken));
 
     // 4. Store response in our global store
-    this.#userStore.register(user);
+    this.#userStore.load(user);
 
     // 5. redirect user to Dashboard page
     this.#router.navigate(['/app/dashboard']);
