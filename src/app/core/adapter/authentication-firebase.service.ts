@@ -10,6 +10,7 @@ import { EmailAlreadyTakenError } from "@app/visitor/signup/domain/email-already
 import { environment } from "@env/environment";
 import { Observable, map, catchError, of, throwError } from "rxjs";
 import { AuthenticationService, RegisterResponse, LoginResponse } from "../port/authentication.service";
+import { InvalidCredentialError } from "@app/visitor/login/domain/invalid-credential.error";
 
 interface FirebaseResponseSignup{ 
   idToken: string;
@@ -66,7 +67,14 @@ export class AuthenticationFirebaseService implements AuthenticationService{
         expiresIn : response.expiresIn,
         userId : response.localId,
         isRegistered : response.registered,
-      }))
+      })),
+      catchError((error) =>{
+        if(error.error.error.message === "INVALID_LOGIN_CREDENTIALS"){
+          return of(new InvalidCredentialError())
+        }
+        console.log(error)
+        return of(error)
+      })
     );
   }
 
