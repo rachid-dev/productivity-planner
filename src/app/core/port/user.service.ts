@@ -9,8 +9,8 @@ import { User } from '../entity/user.interface';
 })
 export abstract class UserService {
 
-  abstract create(user: User, bearerToken:string):Observable<void>;
+  abstract create(user : User, bearerToken : string):Observable<void>;
 
-  abstract get(userId: String, bearerToken:string):Observable<User>;
+  abstract get(userId : string, bearerToken : string):Observable<User>;
   
 }
