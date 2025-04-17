@@ -11,6 +11,6 @@ export abstract class UserService {
 
   abstract create(user : User, bearerToken : string):Observable<void>;
 
-  abstract get(userId : string, bearerToken : string):Observable<User>;
+  abstract fetch(userId : string, bearerToken : string):Observable<User>;
   
 }
