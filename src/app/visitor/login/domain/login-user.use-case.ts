@@ -4,6 +4,7 @@ import { AuthenticationService } from '@app/core/port/authentication.service';
 import { UserService } from '@app/core/port/user.service';
 import { UserStore } from '@app/core/store/user.store';
 import { firstValueFrom } from 'rxjs';
+import { InvalidCredentialError } from './invalid-credential.error';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,12 @@ export class LoginUserUseCase {
     // 1. Authenticate user
     const authResponse = await firstValueFrom(this.#authenticationService.login(email, password));
 
-    // 2. Store user authentication data in local storage
+    if(authResponse instanceof InvalidCredentialError){
+      throw authResponse;
+    }
     const {jwtToken : bearerToken, jwtRefreshToken, userId} = authResponse;
+
+    // 2. Store user authentication data in local storage
     localStorage.setItem("jwtRefreshToken", jwtRefreshToken);
 
     // 3. Get user data from backend server

@@ -24,7 +24,10 @@
                 @if(emailField.hasError('email')) {
                     <div class="form-text text-danger" data-testid="error-email-pattern">Email must be valid.</div>
                 }
-            }       
+            }
+            @if(invalidCredentialError()){
+                <div class="form-text text-danger" data-testid="error-invalid-credential">{{invalidCredentialErrorMessage()}}</div>
+            }
         </div>
     </div>
 
