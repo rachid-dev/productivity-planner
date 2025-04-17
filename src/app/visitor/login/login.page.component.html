@@ -1,4 +1,4 @@
-<form #form="ngForm">
+<form #form="ngForm" (ngSubmit)="onSubmit()">
 
     <!-- Email -->
     <div class="row justify-content-center">
@@ -24,7 +24,10 @@
                 @if(emailField.hasError('email')) {
                     <div class="form-text text-danger" data-testid="error-email-pattern">Email must be valid.</div>
                 }
-            }       
+            }
+            @if(invalidCredentialError()){
+                <div class="form-text text-danger" data-testid="error-invalid-credential">{{invalidCredentialError()?.message}}</div>
+            }
         </div>
     </div>
 
@@ -55,10 +58,10 @@
             <button 
                 data-testid="submit-button"
                 type="submit" 
-                class="btn btn-primary form-control" 
-                disabled
+                class="btn btn-primary form-control"
+                [disabled]="form.invalid"
             >
-                Connexion
+                Log In
             </button>
         </div>
     </div>  

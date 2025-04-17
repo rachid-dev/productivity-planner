@@ -5,6 +5,20 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../entity/user.interface';
 
+interface FirebaseResponseGet{
+  name : string,
+  fields : {
+    name : {
+      stringValue: string
+    },
+    email : {
+      stringValue: string
+    }
+  },
+  createTime : string,
+  updateTime : string
+}
+
 @Injectable()
 export class UserFirebaseService implements UserService{
 
@@ -12,10 +26,9 @@ export class UserFirebaseService implements UserService{
 
   readonly #FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/${environment.firebaseConfig.projectId}/databases/(default)/documents`;
   readonly #USER_COLLECTION_ID = 'users';
-  readonly #FIREBASE_API_KEY = environment.firebaseConfig.apiKey
-  readonly #USER_COLLECTION_URL = `${this.#FIRESTORE_URL}/${this.#USER_COLLECTION_ID}?key=${this.#FIREBASE_API_KEY}&documentId=`;
+  readonly #USER_COLLECTION_URL = `${this.#FIRESTORE_URL}/${this.#USER_COLLECTION_ID}/`;
     
-  create(user : User, bearerToken:string): Observable<void>{
+  create(user : User, bearerToken : string) : Observable<void>{
 
       const url = `${this.#USER_COLLECTION_URL}${user.id}`;
       const body = {
@@ -31,5 +44,22 @@ export class UserFirebaseService implements UserService{
       const options = {headers};
   
       return this.#http.post<unknown>(url, body, options).pipe(map(()=>undefined));
+    }
+
+    fetch(userId : string, bearerToken : string) : Observable<User>{
+
+      const url = `${this.#USER_COLLECTION_URL}${userId}`;
+      const headers = new HttpHeaders({
+        Authorization : `Bearer ${bearerToken}`
+      });
+      const options = {headers};
+
+      return this.#http.get<FirebaseResponseGet>(url, options).pipe(
+        map((response) => ({
+          id : userId,
+          name : response.fields.name.stringValue,
+          email : response.fields.email.stringValue
+        }))
+      );
     }
 }
