@@ -20,7 +20,7 @@ export class UserFirebaseService implements UserService{
       const url = `${this.#USER_COLLECTION_URL}${user.id}`;
       const body = {
         fields : {
-          id : {stringValue: user.id},
+          name : {stringValue: user.name},
           email : {stringValue: user.email}
         }
       };
@@ -32,6 +32,4 @@ export class UserFirebaseService implements UserService{
   
       return this.#http.post<unknown>(url, body, options).pipe(map(()=>undefined));
     }
-
-    
 }
