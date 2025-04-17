@@ -72,8 +72,7 @@ export class AuthenticationFirebaseService implements AuthenticationService{
         if(error.error.error.message === "INVALID_LOGIN_CREDENTIALS"){
           return of(new InvalidCredentialError())
         }
-        console.log(error)
-        return of(error)
+        return throwError(() => error)
       })
     );
   }
