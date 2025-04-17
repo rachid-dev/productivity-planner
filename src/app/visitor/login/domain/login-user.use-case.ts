@@ -21,21 +21,26 @@ export class LoginUserUseCase {
     // 1. Authenticate user
     const authResponse = await firstValueFrom(this.#authenticationService.login(email, password));
 
+    // 2. Throw an error if credentials are invalid
     if(authResponse instanceof InvalidCredentialError){
       throw authResponse;
     }
-    const {jwtToken : bearerToken, jwtRefreshToken, userId} = authResponse;
 
-    // 2. Store user authentication data in local storage
-    localStorage.setItem("jwtRefreshToken", jwtRefreshToken);
+    
+    // 3. Store user authentication data in webapp storage
+    const { jwtToken, jwtRefreshToken, expiresIn, userId } = authResponse;
 
-    // 3. Get user data from backend server
-    const user = await firstValueFrom(this.#userService.fetch(userId, bearerToken));
+    localStorage.setItem('jwtToken', jwtToken);
+    localStorage.setItem('jwtRefreshToken', jwtRefreshToken);
+    localStorage.setItem('expiresIn', expiresIn);
 
-    // 4. Store response in our global store
+    // 4. Get user data from backend server
+    const user = await firstValueFrom(this.#userService.fetch(userId, jwtToken));
+
+    // 5. Store response in our global store
     this.#userStore.load(user);
 
-    // 5. redirect user to Dashboard page
+    // 6. redirect user to Dashboard page
     this.#router.navigate(['/app/dashboard']);
 
   }
