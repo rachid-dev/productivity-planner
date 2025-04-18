@@ -36,7 +36,7 @@ export class UserFirebaseService implements UserService{
       });
       const options = {headers};
   
-      return this.#http.post<unknown>(url, body, options).pipe(map(()=>undefined));
+      return this.#http.post(url, body, options).pipe(map(()=>undefined));
     }
 
     fetch(userId : string, bearerToken : string) : Observable<User>{
