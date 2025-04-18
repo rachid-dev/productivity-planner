@@ -12,14 +12,14 @@ import { Observable, map, catchError, of, throwError } from "rxjs";
 import { AuthenticationService, RegisterResponse, LoginResponse } from "../port/authentication.service";
 import { InvalidCredentialError } from "@app/visitor/login/domain/invalid-credential.error";
 
-interface FirebaseResponseSignup{ 
+interface FirebaseResponseSignupPayload{ 
   idToken: string;
   email: string;
   refreshToken: string;
   expiresIn: string;
   localId: string;
 }
-interface FirebaseResponseSignin{
+interface FirebaseResponseSigninPayload{
   displayName: string
   idToken: string;
   email: string;
@@ -29,7 +29,7 @@ interface FirebaseResponseSignin{
   registered: boolean;
 }
 
-interface FirebaseResponseRefreshToken{
+interface FirebaseRefreshTokenPayload{
   expires_in: string,
   token_type: string,
   refresh_token: string,
@@ -47,7 +47,7 @@ export class AuthenticationFirebaseService implements AuthenticationService{
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseConfig.apiKey}`;
     const body={email, password, "returnSecureToken":true};
     
-    return this.#http.post<FirebaseResponseSignup>(url, body).pipe(
+    return this.#http.post<FirebaseResponseSignupPayload>(url, body).pipe(
       map((response) => ({
         jwtToken : response.idToken,
         jwtRefreshToken : response.refreshToken,
@@ -69,7 +69,7 @@ export class AuthenticationFirebaseService implements AuthenticationService{
     const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseConfig.apiKey}`;
     const body={email, password, "returnSecureToken":true};
     
-    return this.#http.post<FirebaseResponseSignin>(url, body).pipe(
+    return this.#http.post<FirebaseResponseSigninPayload>(url, body).pipe(
       map((response) =>({
         jwtToken : response.idToken,
         jwtRefreshToken : response.refreshToken,
@@ -95,7 +95,7 @@ export class AuthenticationFirebaseService implements AuthenticationService{
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
-    return this.#http.post<FirebaseResponseRefreshToken>(url, body, { headers }).pipe(
+    return this.#http.post<FirebaseRefreshTokenPayload>(url, body, { headers }).pipe(
       map((response) => ({
         jwtToken : response.id_token,
         userId : response.user_id,
