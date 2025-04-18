@@ -4,7 +4,7 @@
  * @see https://firebase.google.com/docs/reference/rest/auth?hl=fr#section-create-email-password
  */
 
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { EmailAlreadyTakenError } from "@app/visitor/signup/domain/email-already-taken.error";
 import { environment } from "@env/environment";
@@ -88,12 +88,14 @@ export class AuthenticationFirebaseService implements AuthenticationService{
 
   refreshToken(refreshToken: string): Observable<{ jwtToken: string, userId: string }>{
     const url = `https://securetoken.googleapis.com/v1/token?key=${environment.firebaseConfig.apiKey}`;
-    const body = {
-      grant_type : "refresh_token",
-      refresh_token : refreshToken
-    }
+    const body = new HttpParams()
+      .set('grant_type', 'refresh_token')
+      .set('refresh_token', refreshToken)
+      .toString();
 
-    return this.#http.post<FirebaseResponseRefreshToken>(url, body).pipe(
+    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+
+    return this.#http.post<FirebaseResponseRefreshToken>(url, body, { headers }).pipe(
       map((response) => ({
         jwtToken : response.id_token,
         userId : response.user_id,
