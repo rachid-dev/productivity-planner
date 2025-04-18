@@ -29,6 +29,15 @@ interface FirebaseResponseSignin{
   registered: boolean;
 }
 
+interface FirebaseResponseRefreshToken{
+  expires_in: string,
+  token_type: string,
+  refresh_token: string,
+  id_token: string,
+  user_id: string,
+  project_id: string
+}
+
 @Injectable()
 export class AuthenticationFirebaseService implements AuthenticationService{
 
@@ -75,6 +84,21 @@ export class AuthenticationFirebaseService implements AuthenticationService{
         return throwError(() => error)
       })
     );
+  }
+
+  refreshToken(refreshToken: string): Observable<{ jwtToken: string, userId: string }>{
+    const url = `https://securetoken.googleapis.com/v1/token?key=${environment.firebaseConfig.apiKey}`;
+    const body = {
+      grant_type : "refresh_token",
+      refresh_token : refreshToken
+    }
+
+    return this.#http.post<FirebaseResponseRefreshToken>(url, body).pipe(
+      map((response) => ({
+        jwtToken : response.id_token,
+        userId : response.user_id,
+      }))
+    )
   }
 
 }
