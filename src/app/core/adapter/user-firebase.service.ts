@@ -5,18 +5,11 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../entity/user.interface';
 
-interface FirebaseResponseGet{
-  name : string,
+interface UserFirebasePayload{
   fields : {
-    name : {
-      stringValue: string
-    },
-    email : {
-      stringValue: string
-    }
-  },
-  createTime : string,
-  updateTime : string
+    name : { stringValue: string },
+    email : { stringValue: string }
+  }
 }
 
 @Injectable()
@@ -43,7 +36,7 @@ export class UserFirebaseService implements UserService{
       });
       const options = {headers};
   
-      return this.#http.post<unknown>(url, body, options).pipe(map(()=>undefined));
+      return this.#http.post(url, body, options).pipe(map(()=>undefined));
     }
 
     fetch(userId : string, bearerToken : string) : Observable<User>{
@@ -54,7 +47,7 @@ export class UserFirebaseService implements UserService{
       });
       const options = {headers};
 
-      return this.#http.get<FirebaseResponseGet>(url, options).pipe(
+      return this.#http.get<UserFirebasePayload>(url, options).pipe(
         map((response) => ({
           id : userId,
           name : response.fields.name.stringValue,
