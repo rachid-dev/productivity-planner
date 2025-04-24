@@ -93,5 +93,13 @@ describe('LoginPageComponent', () => {
       expect(error).toBeNull();
     })
   });
+
+  describe('when user submits a valid login form', () => {
+    it.todo('should call #loginUserUseCase with email and password');
+  });
+
+  describe('when user submits a invalid login form', () => {
+    it.todo('should not call #loginUserUseCase');
+  });
   
 });
