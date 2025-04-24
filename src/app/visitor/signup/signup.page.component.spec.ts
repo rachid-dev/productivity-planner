@@ -205,5 +205,12 @@ describe('SignupPageComponent', () => {
     });
   });
 
+  describe('when visitor submits a valid signup form', () => {
+    it.todo('should call #registerUserUseCase with correct visitor informations');
+  });
+
+  describe('when visitor submits an invalid signup form', () => {
+    it.todo('should not call #registerUserUseCase');
+  });
   
 });
