@@ -10,12 +10,14 @@ describe('LoginPageComponent', () => {
   let fixture: ComponentFixture<LoginPageComponent>;
   let email: DebugElement;
   let password: DebugElement;
+  let submitButton : DebugElement;
+  let loginUserUseCase : LoginUserUseCase;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LoginPageComponent],
       providers : [
-        {provide : LoginUserUseCase, useValue : {execute : jest.fn()}}
+        {provide : LoginUserUseCase, useValue : {execute : jest.fn().mockResolvedValue(undefined)}}
       ]
     })
     .compileComponents();
@@ -24,8 +26,10 @@ describe('LoginPageComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
+    loginUserUseCase = TestBed.inject(LoginUserUseCase);
     email = fixture.debugElement.query(By.css('[data-testid="email"]'));
     password = fixture.debugElement.query(By.css('[data-testid="password"]'));
+    submitButton = fixture.debugElement.query(By.css('[data-testid="submit-button"]'));
   });
 
   it('should create', () => {
@@ -92,6 +96,43 @@ describe('LoginPageComponent', () => {
       // Assert
       expect(error).toBeNull();
     })
+  });
+
+  describe('when user submits a valid login form', () => {
+    it('should call #loginUserUseCase with email and password', () => {
+      // Arrange
+      email.nativeElement.value = 'johdoe@acme.com';
+      email.nativeElement.dispatchEvent(new Event('input'));
+      password.nativeElement.value = 'Azerty1@';
+      password.nativeElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      // Act
+      submitButton.nativeElement.click();
+      fixture.detectChanges();
+
+      // Assert
+      expect(loginUserUseCase.execute).toHaveBeenCalledTimes(1);
+      expect(loginUserUseCase.execute).toHaveBeenCalledWith(email.nativeElement.value, password.nativeElement.value);
+    });
+  });
+
+  describe('when user submits a invalid login form', () => {
+    it('should not call #loginUserUseCase', () => {
+      // Arrange
+      email.nativeElement.value = 'invalid-email';
+      email.nativeElement.dispatchEvent(new Event('input'));
+      password.nativeElement.value = 'invalid-password';
+      password.nativeElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+      
+      // Act
+      submitButton.nativeElement.click();
+      fixture.detectChanges();
+
+      // Assert
+      expect(loginUserUseCase.execute).not.toHaveBeenCalled();
+    });
   });
   
 });
