@@ -16,27 +16,27 @@ describe('RegisterUserUseCase', () => {
   let userStore : UserStore;
   let router : Router;
 
-  let mockUserId = "123";
-  let mockEmail = "john.doe@acme.com";
-  let mockPassword = "Azerty@1";
-  let mockJwtToken = "jwtToken";
-  let mockJwtRefreshToken = "jwtRefreshToken";
-  let mockExpiresIn = "expiresIn";
+  const mockUserId = "123";
+  const mockEmail = "john.doe@acme.com";
+  const mockPassword = "Azerty@1";
+  const mockJwtToken = "jwtToken";
+  const mockJwtRefreshToken = "jwtRefreshToken";
+  const mockExpiresIn = "expiresIn";
 
-  let mockRegisterPayload = {
+  const mockRegisterPayload = {
     jwtToken: mockJwtToken,
     jwtRefreshToken: mockJwtRefreshToken,
     expiresIn: mockExpiresIn,
     userId: mockUserId
   };
 
-  let mockVisitor = {
+  const mockVisitor = {
     name : "John",
     email : mockEmail,
     password : mockPassword
   };
 
-  let mockUser = {
+  const mockUser = {
     id : mockUserId,
     name : "John",
     email : mockEmail,

@@ -4,7 +4,6 @@ import { LoginPageComponent } from './login.page.component';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { LoginUserUseCase } from './domain/login-user.use-case';
-import { of } from 'rxjs';
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
