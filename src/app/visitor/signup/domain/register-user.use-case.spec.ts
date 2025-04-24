@@ -42,6 +42,9 @@ describe('RegisterUserUseCase', () => {
     email : mockEmail,
   };
 
+  beforeEach(() =>{
+    localStorage.clear();
+  });
 
   describe('when visitor provides valid info', () => {
 
@@ -60,7 +63,6 @@ describe('RegisterUserUseCase', () => {
       userService = TestBed.inject(UserService);
       userStore = TestBed.inject(UserStore);
       router = TestBed.inject(Router);
-      localStorage.clear();
     });
 
     it('should register visitor via AuthenticationService', async () => {
