@@ -10,17 +10,28 @@ import { InvalidCredentialError } from './invalid-credential.error';
 
 describe('LoginUserUseCaseService', () => {
   let loginUserUseCase: LoginUserUseCase;
+  let authenticationService : AuthenticationService;
+  let userService : UserService;
+  let userStore : UserStore;
+  let router : Router;
+
   const mockUserId = '123';
   const mockJwtToken = 'jwt-token';
   const mockJwtRefreshToken = 'refresh-token';
   const mockExpiresIn = '3600';
+
   const mockLoginPayload = {
     userId: mockUserId,
     jwtToken: mockJwtToken,
     jwtRefreshToken: mockJwtRefreshToken,
     expiresIn: mockExpiresIn,
   }
+  
   const mockUser = { id: mockUserId, name: 'John Doe' };
+
+  beforeEach(() => {
+    localStorage.clear();
+  });
 
   describe('when user provides valid credentials', () => {
     
@@ -38,10 +49,13 @@ describe('LoginUserUseCaseService', () => {
         ]
       });
       loginUserUseCase = TestBed.inject(LoginUserUseCase);
+      authenticationService = TestBed.inject(AuthenticationService);
+      userService = TestBed.inject(UserService);
+      userStore = TestBed.inject(UserStore);
+      router = TestBed.inject(Router);
     });
 
     it('should authenticate the user via AuthenticationService', async () => {
-      const authenticationService = TestBed.inject(AuthenticationService);
       await loginUserUseCase.execute(email, password);
       expect(authenticationService.login).toHaveBeenCalledWith(email, password);   
     });
@@ -54,19 +68,16 @@ describe('LoginUserUseCaseService', () => {
     });
 
     it('should fetch the user info via UserService', async () => {
-      const userService = TestBed.inject(UserService);
       await loginUserUseCase.execute(email, password);
       expect(userService.fetch).toHaveBeenCalledWith(mockUserId, mockJwtToken);
     });
 
     it('should load the user into the store', async () => {
-      const userStore = TestBed.inject(UserStore);
       await loginUserUseCase.execute(email, password);
       expect(userStore.load).toHaveBeenCalledWith(mockUser);
     });
 
     it('should navigate to dashboard', async () => {
-      const router = TestBed.inject(Router);
       await loginUserUseCase.execute(email, password);
       expect(router.navigate).toHaveBeenCalledWith(['/app/dashboard']);
     });
