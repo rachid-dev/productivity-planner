@@ -25,4 +25,16 @@ describe('LoginUserUseCaseService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  describe('when user provides valid credentials', () => {
+    it.todo('should authenticate the user via AuthenticationService');
+    it.todo('should store jwt tokens in localStorage');
+    it.todo('should fetch the user info via UserService');
+    it.todo('should load the user into the store');
+    it.todo('should navigate to dashboard');
+  });
+
+  describe('when user provides invalid credentials', () => {
+    it.todo('should throw InvalidCredentialError');
+  });
 });
