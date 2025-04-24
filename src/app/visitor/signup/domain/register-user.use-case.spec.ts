@@ -8,22 +8,34 @@ import { UserStore } from '@app/core/store/user.store';
 
 
 describe('RegisterNewUserUseCaseService', () => {
-  let service: RegisterUserUseCase;
+  let registerUserUseCase: RegisterUserUseCase;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers : [
         RegisterUserUseCase,
         { provide: AuthenticationService, useValue: { register: jest.fn()}},
-        { provide: UserService, useValue: { create: jest.fn( )}},
-        { provide: UserStore, useValue: { register: jest.fn() }},
+        { provide: UserService, useValue: { create: jest.fn()}},
+        { provide: UserStore, useValue: { load: jest.fn() }},
         { provide: Router, useValue: { navigate: jest.fn() }},
       ]
     });
-    service = TestBed.inject(RegisterUserUseCase);
+    registerUserUseCase = TestBed.inject(RegisterUserUseCase);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(registerUserUseCase).toBeTruthy();
+  });
+
+  describe('when visitor provides valid info', () => {
+    it.todo('should register visitor via AuthenticationService');
+    it.todo('should add info to webapp storage');
+    it.todo('should create new user via UserService');
+    it.todo('should load new user in the store via UserStore');
+    it.todo('should navigate to dashboard');
+  });
+
+  describe('when visitor provides an already taken email', () => {
+    it.todo('should throw EmailAlreadyTakenError');
   });
 });
