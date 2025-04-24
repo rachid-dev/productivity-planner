@@ -3,9 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SignupPageComponent } from './signup.page.component';
 import { RegisterUserUseCase } from './domain/register-user.use-case';
+import { Visitor } from '@app/core/entity/user.interface';
 
 
 describe('SignupPageComponent', () => {
+  let registerUserUseCase : RegisterUserUseCase;
   let component: SignupPageComponent;
   let fixture: ComponentFixture<SignupPageComponent>;
 
@@ -13,17 +15,18 @@ describe('SignupPageComponent', () => {
   let email: DebugElement;
   let password: DebugElement;
   let confirmPassword: DebugElement;
-  let button: DebugElement;
+  let submitButton: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SignupPageComponent],
       providers: [
-        { provide: RegisterUserUseCase, useValue: {}},
+        { provide: RegisterUserUseCase, useValue: {execute : jest.fn().mockResolvedValue(undefined)}},
       ]
     })
     .compileComponents();
 
+    registerUserUseCase = TestBed.inject(RegisterUserUseCase);
     fixture = TestBed.createComponent(SignupPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -32,7 +35,7 @@ describe('SignupPageComponent', () => {
     email = fixture.debugElement.query(By.css('[data-testid="email"]'));
     password = fixture.debugElement.query(By.css('[data-testid="password"]'));
     confirmPassword = fixture.debugElement.query(By.css('[data-testid="confirm-password"]'));
-    button = fixture.debugElement.query(By.css('[data-testid="submit-button"]'));
+    submitButton = fixture.debugElement.query(By.css('[data-testid="submit-button"]'));
   });
 
   it('should create', () => {
@@ -48,7 +51,7 @@ describe('SignupPageComponent', () => {
     });
 
     it('should diplay a submit button', () => {
-      expect(button).toBeTruthy();
+      expect(submitButton).toBeTruthy();
     });
   })
 
@@ -206,11 +209,48 @@ describe('SignupPageComponent', () => {
   });
 
   describe('when visitor submits a valid signup form', () => {
-    it.todo('should call #registerUserUseCase with correct visitor informations');
+    it('should call #registerUserUseCase with correct visitor informations', () => {
+      // Arrange
+      name.nativeElement.value = "John";
+      name.nativeElement.dispatchEvent(new Event('input'));
+      email.nativeElement.value = "john.doe@acme.com";
+      email.nativeElement.dispatchEvent(new Event('input'));
+      password.nativeElement.value = "Azerty1@";
+      password.nativeElement.dispatchEvent(new Event('input'));
+      confirmPassword.nativeElement.value = "Azerty1@";
+      confirmPassword.nativeElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      const validVisitorInfo : Visitor = {
+        name : name.nativeElement.value,
+        email : email.nativeElement.value,
+        password : password.nativeElement.value
+      };
+
+      // Act
+      submitButton.nativeElement.click();
+      fixture.detectChanges();
+
+      // Assert
+      expect(registerUserUseCase.execute).toHaveBeenCalledTimes(1);
+      expect(registerUserUseCase.execute).toHaveBeenCalledWith(validVisitorInfo);
+    });
   });
 
   describe('when visitor submits an invalid signup form', () => {
-    it.todo('should not call #registerUserUseCase');
+    it('should not call #registerUserUseCase', () => {
+       // Arrange
+       name.nativeElement.value = "invalid-name";
+       name.nativeElement.dispatchEvent(new Event('input'));
+       fixture.detectChanges();
+ 
+       // Act
+       submitButton.nativeElement.click();
+       fixture.detectChanges();
+ 
+       // Assert
+       expect(registerUserUseCase.execute).not.toHaveBeenCalled();
+    });
   });
   
 });
