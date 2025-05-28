@@ -19,7 +19,8 @@ export class UserFirebaseService implements UserService{
 
   readonly #FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/${environment.firebaseConfig.projectId}/databases/(default)/documents`;
   readonly #USER_COLLECTION_ID = 'users';
-  readonly #USER_COLLECTION_URL = `${this.#FIRESTORE_URL}/${this.#USER_COLLECTION_ID}/`;
+  readonly #FIREBASE_API_KEY = environment.firebaseConfig.apiKey;
+  readonly #USER_COLLECTION_URL = `${this.#FIRESTORE_URL}/${this.#USER_COLLECTION_ID}?key=${this.#FIREBASE_API_KEY}&documentId=`;
     
   create(user : User, bearerToken : string) : Observable<void>{
 
@@ -41,7 +42,7 @@ export class UserFirebaseService implements UserService{
 
     fetch(userId : string, bearerToken : string) : Observable<User>{
 
-      const url = `${this.#USER_COLLECTION_URL}${userId}`;
+      const url = `${this.#FIRESTORE_URL}/${this.#USER_COLLECTION_ID}/${userId}?key=${this.#FIREBASE_API_KEY}`;
       const headers = new HttpHeaders({
         Authorization : `Bearer ${bearerToken}`
       });
