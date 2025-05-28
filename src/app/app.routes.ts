@@ -7,43 +7,28 @@ import { PlanningPageComponent } from './membership/planning/planning.page.compo
 import { ProfilePageComponent } from './membership/profile/profile.page.component';
 import { SettingsPageComponent } from './membership/settings/settings.page.component';
 import { WorkdayPageComponent } from './membership/workday/workday.page.component';
+import { ShellLayoutComponent } from './membership/core/shell/shell.layout.component';
 
 export const routes: Routes = [
-    {   title: 'Productivity Planner',
+    {   
         path: '',
-        component: HomePageComponent
-    },
-    {   title: 'Signup',
-        path: 'signup',
-        component: SignupPageComponent
-    },
-    {   title: 'Login',
-        path: 'login',
-        component: LoginPageComponent
+        title: 'Productivity Planner',
+        loadComponent: () => import('./visitor/home/home.page.component').then(c => c.HomePageComponent)
     },
     {   
-        title: 'Dashboard',
-        path: 'app/dashboard',
-        component: DashboardPageComponent
+        path: 'signup',
+        title: 'Signup',
+        loadComponent: () => import('./visitor/signup/signup.page.component').then(c => c.SignupPageComponent)
     },
-    {
-        title: 'Planning',
-        path: 'app/planning',
-        component: PlanningPageComponent,
+    {   
+        path: 'login',
+        title: 'Login',
+        loadComponent: () => import('./visitor/login/login.page.component').then(c => c.LoginPageComponent)
     },
-    {
-        title: 'Workday',
-        path: 'app/workday',
-        component: WorkdayPageComponent,
-    },
-    {
-        title: 'Profile',
-        path: 'app/profile',
-        component: ProfilePageComponent,
-    },
-    {
-        title: 'Settings',
-        path: 'app/settings',
-        component: SettingsPageComponent,
+    {   
+        path: 'app',
+        title: 'Productivity Planner',
+        component : ShellLayoutComponent,
+        loadChildren : () => import('./membership/membership.routes').then(r => r.membershipRoutes)
     },
 ];
