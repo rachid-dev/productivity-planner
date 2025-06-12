@@ -21,7 +21,7 @@ describe('SignupPageComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SignupPageComponent],
       providers: [
-        { provide: RegisterUserUseCase, useValue: {execute : jest.fn().mockResolvedValue(undefined)}},
+        { provide: RegisterUserUseCase, useValue: {execute : jest.fn().mockResolvedValue(Promise.resolve())}},
       ]
     })
     .compileComponents();
