@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShellLayoutComponent } from './shell.layout.component';
-import { provideRouter, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { provideRouter, RouterOutlet } from '@angular/router';
 
 describe('ShellLayoutComponent', () => {
   let component: ShellLayoutComponent;
