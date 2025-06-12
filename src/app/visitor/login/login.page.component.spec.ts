@@ -17,7 +17,7 @@ describe('LoginPageComponent', () => {
     await TestBed.configureTestingModule({
       imports: [LoginPageComponent],
       providers : [
-        {provide : LoginUserUseCase, useValue : {execute : jest.fn().mockResolvedValue(undefined)}}
+        {provide : LoginUserUseCase, useValue : {execute : jest.fn().mockResolvedValue(Promise.resolve())}}
       ]
     })
     .compileComponents();
