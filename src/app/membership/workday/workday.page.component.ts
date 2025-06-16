@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { WorkdayStore } from './workday.page.store';
 
 @Component({
@@ -8,5 +8,5 @@ import { WorkdayStore } from './workday.page.store';
   providers: [WorkdayStore]
 })
 export class WorkdayPageComponent {
-
+  readonly store = inject(WorkdayStore);
 }
