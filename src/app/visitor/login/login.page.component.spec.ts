@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginPageComponent } from './login.page.component';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 import { LoginUserUseCase } from './domain/login-user.use-case';
 
 describe('LoginPageComponent', () => {
@@ -17,6 +17,7 @@ describe('LoginPageComponent', () => {
     await TestBed.configureTestingModule({
       imports: [LoginPageComponent],
       providers : [
+        provideZonelessChangeDetection(),
         {provide : LoginUserUseCase, useValue : {execute : jest.fn().mockResolvedValue(Promise.resolve())}}
       ]
     })

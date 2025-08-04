@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomepageFeatureCardListDumbComponent } from './homepage-feature-card-list.dumb.component';
-import { DebugElement } from '@angular/core';
+import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FeatureCardList } from './homepage-feature-card-list.interface';
 
@@ -22,6 +22,7 @@ describe('HomepageFeatureCardListDumbComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HomepageFeatureCardListDumbComponent],
+      providers: [provideZonelessChangeDetection()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomepageFeatureCardListDumbComponent);
