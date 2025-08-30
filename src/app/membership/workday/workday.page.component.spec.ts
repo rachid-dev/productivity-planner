@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideZonelessChangeDetection } from '@angular/core';
 import { WorkdayPageComponent } from './workday.page.component';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 describe('WorkdayPageComponent', () => {
   let component: WorkdayPageComponent;
@@ -13,7 +14,7 @@ describe('WorkdayPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WorkdayPageComponent],
-      providers: [provideZonelessChangeDetection()],
+      providers: [provideZonelessChangeDetection()]
     })
     .compileComponents();
 

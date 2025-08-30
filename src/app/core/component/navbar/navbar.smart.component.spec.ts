@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavbarSmartComponent } from './navbar.smart.component';
-import { DebugElement } from '@angular/core';
+import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 
@@ -14,7 +14,7 @@ describe('NavbarSmartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NavbarSmartComponent],
-      providers: [provideRouter([]),]
+      providers: [provideZonelessChangeDetection(), provideRouter([]),]
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavbarSmartComponent);
