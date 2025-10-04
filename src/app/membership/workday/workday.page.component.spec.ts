@@ -1,5 +1,6 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { WorkdayPageComponent } from './workday.page.component';
 
 describe('WorkdayPageComponent', () => {
@@ -7,7 +8,7 @@ describe('WorkdayPageComponent', () => {
   let fixture: ComponentFixture<WorkdayPageComponent>;
 
   const getAddTaskButton = () =>
-    fixture.nativeElement.querySelector('[data-testid=add-task-button]');
+    fixture.debugElement.query(By.css('[data-testid="add-task-button"]'));
   
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -53,11 +54,12 @@ describe('WorkdayPageComponent', () => {
 
   describe('when there is 6 tasks planned for the current day', () => {
     beforeEach(() => {
-      component.store.onAddTask();
-      component.store.onAddTask();
-      component.store.onAddTask();
-      component.store.onAddTask();
-      component.store.onAddTask();
+      const button = getAddTaskButton();
+      button.nativeElement.click();
+      button.nativeElement.click();
+      button.nativeElement.click();
+      button.nativeElement.click();
+      button.nativeElement.click();
       fixture.detectChanges();
     });
     it('sould hide "Add task" button', () => {
