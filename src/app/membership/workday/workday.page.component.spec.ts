@@ -41,9 +41,11 @@ describe('WorkdayPageComponent', () => {
       component.store.onAddTask();
       fixture.detectChanges();
     });
-    it('sould display "Add task" button', () => {
+    it('sould hide "Add task" button', () => {
       const button = getAddTaskButton();
       expect(button).toBeNull();
     });
   });
+  
 });
+
