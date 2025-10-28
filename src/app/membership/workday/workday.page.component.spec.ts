@@ -20,6 +20,10 @@ describe('WorkdayPageComponent', () => {
     fixture.debugElement.query(
       By.css('[data-testid="inbox-zero-placeholder"]')
     );
+  const getStartWorkdayButton = () =>
+    fixture.debugElement.query(
+      By.css('[data-testid="start-workday-button"]')
+    );
 
   const setTaskTitle = (id: number, title: string) => {
     const input = getTaskInput(id).nativeElement as HTMLInputElement;
@@ -56,6 +60,11 @@ describe('WorkdayPageComponent', () => {
     });
     it('should hide inbox zero placeholder', () => {
       expect(getInboxZeroPlaceholder()).toBeNull();
+    });
+    
+    it('sould display "Start workday" button', () => {
+      const button = getStartWorkdayButton();
+      expect(button).toBeTruthy();
     });
   });
 
@@ -103,6 +112,11 @@ describe('WorkdayPageComponent', () => {
 
     it('should display inbox zero placeholder', () => {
       expect(getInboxZeroPlaceholder()).toBeTruthy();
+    });
+
+    it('sould hide "Start workday" button', () => {
+      const button = getStartWorkdayButton();
+      expect(button).toBeNull();
     });
   });
 });
