@@ -21,16 +21,14 @@ export const UserStore = signalStore(
   }),
   withComputed((store) => {
     const isGoogleUser = computed(
-      () => !!store.user()?.email.endsWith('@google.com')
+      () => !!store.user()?.email.endsWith('@google.com'),
     );
 
     return { isGoogleUser };
   }),
-  withMethods(
-    (store) => ({
-      load(user: User): void {
-        patchState(store, { user });
-      },
-    })
-  )
+  withMethods((store) => ({
+    load(user: User): void {
+      patchState(store, { user });
+    },
+  })),
 );

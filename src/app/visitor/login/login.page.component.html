@@ -1,69 +1,82 @@
 <form #form="ngForm" (ngSubmit)="onSubmit()">
-
-    <!-- Email -->
-    <div class="row justify-content-center">
-        <div class="mt-3 w-25">
-            <label for="email" class="form-label">Email</label>
-            <input
-                data-testid="email"
-                #emailField="ngModel"
-                type="email" 
-                [(ngModel)]="email" 
-                name="email" 
-                class="form-control" 
-                id="email" 
-                aria-describedby="emailHelp"
-                required
-                email
-                [class.is-invalid]="emailField.dirty && emailField.invalid"
-            />
-            @if(emailField.dirty){
-                @if(emailField.hasError('required')){
-                    <div class="form-text text-danger" data-testid="error-email-required">Email is required.</div>
-                }
-                @if(emailField.hasError('email')) {
-                    <div class="form-text text-danger" data-testid="error-email-pattern">Email must be valid.</div>
-                }
-            }
-            @if(invalidCredentialError()){
-                <div class="form-text text-danger" data-testid="error-invalid-credential">{{invalidCredentialError()?.message}}</div>
-            }
+  <!-- Email -->
+  <div class="row justify-content-center">
+    <div class="mt-3 w-25">
+      <label for="email" class="form-label">Email</label>
+      <input
+        data-testid="email"
+        #emailField="ngModel"
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        class="form-control"
+        id="email"
+        aria-describedby="emailHelp"
+        required
+        email
+        [class.is-invalid]="emailField.dirty && emailField.invalid"
+      />
+      @if (emailField.dirty) {
+        @if (emailField.hasError("required")) {
+          <div class="form-text text-danger" data-testid="error-email-required">
+            Email is required.
+          </div>
+        }
+        @if (emailField.hasError("email")) {
+          <div class="form-text text-danger" data-testid="error-email-pattern">
+            Email must be valid.
+          </div>
+        }
+      }
+      @if (invalidCredentialError()) {
+        <div
+          class="form-text text-danger"
+          data-testid="error-invalid-credential"
+        >
+          {{ invalidCredentialError()?.message }}
         </div>
+      }
+    </div>
+  </div>
+
+  <!-- Password -->
+  <div class="row justify-content-center">
+    <div class="mt-3 w-25">
+      <label for="password" class="form-label">Password</label>
+      <input
+        data-testid="password"
+        #passwordField="ngModel"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        class="form-control"
+        id="password"
+        aria-describedby="passwordHelp"
+        required
+        [class.is-invalid]="passwordField.dirty && passwordField.invalid"
+      />
+      @if (passwordField.dirty && passwordField.hasError("required")) {
+        <div
+          class="form-text text-danger"
+          data-testid="error-password-required"
+        >
+          Password is required.
+        </div>
+      }
     </div>
 
-    <!-- Password -->
+    <!-- Login -->
     <div class="row justify-content-center">
-        <div class="mt-3 w-25">
-            <label for="password" class="form-label">Password</label>
-            <input
-                data-testid="password" 
-                #passwordField="ngModel"
-                type="password" 
-                [(ngModel)]="password" 
-                name="password" class="form-control" 
-                id="password" 
-                aria-describedby="passwordHelp"
-                required
-                [class.is-invalid]="passwordField.dirty && passwordField.invalid"
-                
-            />
-            @if(passwordField.dirty && passwordField.hasError('required')){
-                <div class="form-text text-danger" data-testid="error-password-required">Password is required.</div>
-            }      
-        </div>
-        
-        <!-- Login -->
-    <div class="row justify-content-center">
-        <div class="mt-3 w-25">
-            <button 
-                data-testid="submit-button"
-                type="submit" 
-                class="btn btn-primary form-control"
-                [disabled]="form.invalid"
-            >
-                Log In
-            </button>
-        </div>
-    </div>  
+      <div class="mt-3 w-25">
+        <button
+          data-testid="submit-button"
+          type="submit"
+          class="btn btn-primary form-control"
+          [disabled]="form.invalid"
+        >
+          Log In
+        </button>
+      </div>
     </div>
+  </div>
 </form>

@@ -11,9 +11,8 @@ describe('ShellLayoutComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ShellLayoutComponent, RouterOutlet],
-      providers: [provideZonelessChangeDetection(), provideRouter([])]
-    })
-    .compileComponents();
+      providers: [provideZonelessChangeDetection(), provideRouter([])],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ShellLayoutComponent);
     component = fixture.componentInstance;

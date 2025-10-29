@@ -18,12 +18,10 @@ describe('WorkdayPageComponent', () => {
     fixture.debugElement.query(By.css(`[data-testid="task-remove-${id - 1}"]`));
   const getInboxZeroPlaceholder = () =>
     fixture.debugElement.query(
-      By.css('[data-testid="inbox-zero-placeholder"]')
+      By.css('[data-testid="inbox-zero-placeholder"]'),
     );
   const getStartWorkdayButton = () =>
-    fixture.debugElement.query(
-      By.css('[data-testid="start-workday-button"]')
-    );
+    fixture.debugElement.query(By.css('[data-testid="start-workday-button"]'));
 
   const setTaskTitle = (id: number, title: string) => {
     const input = getTaskInput(id).nativeElement as HTMLInputElement;
@@ -31,13 +29,12 @@ describe('WorkdayPageComponent', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     fixture.detectChanges();
   };
-  
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WorkdayPageComponent],
-      providers: [provideZonelessChangeDetection()]
-    })
-    .compileComponents();
+      providers: [provideZonelessChangeDetection()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(WorkdayPageComponent);
     component = fixture.componentInstance;
@@ -48,7 +45,7 @@ describe('WorkdayPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-   describe('when empty workday page load', () => {
+  describe('when empty workday page load', () => {
     it('sould display one task', () => {
       expect(getTask(1)).toBeTruthy();
       expect(getTask(2)).toBeNull();
@@ -61,14 +58,14 @@ describe('WorkdayPageComponent', () => {
     it('should hide inbox zero placeholder', () => {
       expect(getInboxZeroPlaceholder()).toBeNull();
     });
-    
+
     it('sould display "Start workday" button', () => {
       const button = getStartWorkdayButton();
       expect(button).toBeTruthy();
     });
   });
 
-   describe('when user remove a task', () => {
+  describe('when user remove a task', () => {
     it('should remove corresponding task', () => {
       // Arrange
       const button = getAddTaskButton();
@@ -103,7 +100,7 @@ describe('WorkdayPageComponent', () => {
       expect(button).toBeNull();
     });
   });
-  
+
   describe('when no task is planned', () => {
     beforeEach(() => {
       getRemoveTaskButton(1).nativeElement.click();
@@ -120,4 +117,3 @@ describe('WorkdayPageComponent', () => {
     });
   });
 });
-

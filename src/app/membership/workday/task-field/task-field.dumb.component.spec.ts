@@ -8,7 +8,7 @@ describe('TaskFieldDumbComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TaskFieldDumbComponent]
+      imports: [TaskFieldDumbComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaskFieldDumbComponent);

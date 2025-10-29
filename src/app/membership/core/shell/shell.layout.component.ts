@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SidebarSmartComponent } from "../sidebar/sidebar.smart.component";
+import { SidebarSmartComponent } from '../sidebar/sidebar.smart.component';
 
 @Component({
   selector: 'app-shell',
@@ -9,9 +9,7 @@ import { SidebarSmartComponent } from "../sidebar/sidebar.smart.component";
   styleUrl: './shell.layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'shell d-flex vh-100'
-  }
+    class: 'shell d-flex vh-100',
+  },
 })
-export class ShellLayoutComponent {
-
-}
+export class ShellLayoutComponent {}

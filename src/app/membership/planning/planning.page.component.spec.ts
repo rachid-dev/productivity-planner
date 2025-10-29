@@ -10,9 +10,8 @@ describe('PlanningPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PlanningPageComponent],
-      providers: [provideZonelessChangeDetection()]
-    })
-    .compileComponents();
+      providers: [provideZonelessChangeDetection()],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PlanningPageComponent);
     component = fixture.componentInstance;

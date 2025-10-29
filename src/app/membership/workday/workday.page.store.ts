@@ -1,5 +1,11 @@
 import { computed } from '@angular/core';
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 
 interface Pomodoro {
   status: 'Not started' | 'In progress' | 'Done';
@@ -14,7 +20,7 @@ export type PomodoroCount = 1 | 2 | 3 | 4 | 5;
 export interface Task {
   type: TaskType;
   title: string;
-  pomodoroCount:PomodoroCount;
+  pomodoroCount: PomodoroCount;
   pomodoroList: PomodoroList;
 }
 
@@ -38,7 +44,6 @@ const getEmptyTask = (): Task => ({
     },
   ],
 });
-
 
 const WORKDAY_TASK_LIMIT = 6;
 
@@ -80,11 +85,10 @@ export const WorkdayStore = signalStore(
         const taskList: TaskList = state.taskList.toSpliced(
           index,
           1,
-          updatedTask
+          updatedTask,
         );
         return { taskList };
       });
     },
-
-  }))
+  })),
 );

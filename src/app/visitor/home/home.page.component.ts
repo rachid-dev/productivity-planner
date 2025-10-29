@@ -6,7 +6,7 @@ import { HomepageFeatureCardListDumbComponent } from './homepage-feature-card-li
   imports: [HomeBannerDumbComponent, HomepageFeatureCardListDumbComponent],
   templateUrl: './home.page.component.html',
   styleUrl: './home.page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePageComponent {
   featureCardList = signal([

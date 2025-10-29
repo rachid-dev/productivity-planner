@@ -5,9 +5,8 @@ import { UserStore } from '@app/core/store/user.store';
   imports: [],
   templateUrl: './dashboard.page.component.html',
   styleUrl: './dashboard.page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPageComponent {
-
   readonly store = inject(UserStore);
 }
