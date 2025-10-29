@@ -9,11 +9,18 @@ describe('TaskFieldDumbComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TaskFieldDumbComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TaskFieldDumbComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('index', 0);
+    fixture.componentRef.setInput('task', {
+      type: 'Hit the target',
+      title: 'Nouvelle tâche',
+      pomodoroCount: 1,
+      pomodoroList: [],
+    });
+
     fixture.detectChanges();
   });
 
