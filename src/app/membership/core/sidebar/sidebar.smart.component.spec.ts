@@ -11,9 +11,8 @@ describe('SidebarSmartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SidebarSmartComponent],
-      providers: [provideZonelessChangeDetection(), provideRouter([])]
-    })
-    .compileComponents();
+      providers: [provideZonelessChangeDetection(), provideRouter([])],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SidebarSmartComponent);
     component = fixture.componentInstance;

@@ -14,7 +14,7 @@ describe('NavbarSmartComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NavbarSmartComponent],
-      providers: [provideZonelessChangeDetection(), provideRouter([]),]
+      providers: [provideZonelessChangeDetection(), provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavbarSmartComponent);

@@ -8,55 +8,61 @@ import { UserStore } from '@app/core/store/user.store';
 import { of } from 'rxjs';
 import { EmailAlreadyTakenError } from './email-already-taken.error';
 
-
 describe('RegisterUserUseCase', () => {
   let registerUserUseCase: RegisterUserUseCase;
-  let authenticationService : AuthenticationService;
-  let userService : UserService;
-  let userStore : UserStore;
-  let router : Router;
+  let authenticationService: AuthenticationService;
+  let userService: UserService;
+  let userStore: UserStore;
+  let router: Router;
 
-  const mockUserId = "123";
-  const mockEmail = "john.doe@acme.com";
-  const mockPassword = "Azerty@1";
-  const mockJwtToken = "jwtToken";
-  const mockJwtRefreshToken = "jwtRefreshToken";
-  const mockExpiresIn = "expiresIn";
+  const mockUserId = '123';
+  const mockEmail = 'john.doe@acme.com';
+  const mockPassword = 'Azerty@1';
+  const mockJwtToken = 'jwtToken';
+  const mockJwtRefreshToken = 'jwtRefreshToken';
+  const mockExpiresIn = 'expiresIn';
 
   const mockRegisterPayload = {
     jwtToken: mockJwtToken,
     jwtRefreshToken: mockJwtRefreshToken,
     expiresIn: mockExpiresIn,
-    userId: mockUserId
+    userId: mockUserId,
   };
 
   const mockVisitor = {
-    name : "John",
-    email : mockEmail,
-    password : mockPassword
+    name: 'John',
+    email: mockEmail,
+    password: mockPassword,
   };
 
   const mockUser = {
-    id : mockUserId,
-    name : "John",
-    email : mockEmail,
+    id: mockUserId,
+    name: 'John',
+    email: mockEmail,
   };
 
-  beforeEach(() =>{
+  beforeEach(() => {
     localStorage.clear();
   });
 
   describe('when visitor provides valid info', () => {
-
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers : [
+        providers: [
           RegisterUserUseCase,
-          { provide: AuthenticationService, useValue: { register: jest.fn().mockReturnValue(of(mockRegisterPayload))}},
-          { provide: UserService, useValue: { create: jest.fn().mockReturnValue(of(undefined))}},
-          { provide: UserStore, useValue: { load: jest.fn() }},
-          { provide: Router, useValue: { navigate: jest.fn() }},
-        ]
+          {
+            provide: AuthenticationService,
+            useValue: {
+              register: jest.fn().mockReturnValue(of(mockRegisterPayload)),
+            },
+          },
+          {
+            provide: UserService,
+            useValue: { create: jest.fn().mockReturnValue(of(undefined)) },
+          },
+          { provide: UserStore, useValue: { load: jest.fn() } },
+          { provide: Router, useValue: { navigate: jest.fn() } },
+        ],
       });
       registerUserUseCase = TestBed.inject(RegisterUserUseCase);
       authenticationService = TestBed.inject(AuthenticationService);
@@ -67,7 +73,10 @@ describe('RegisterUserUseCase', () => {
 
     it('should register visitor via AuthenticationService', async () => {
       await registerUserUseCase.execute(mockVisitor);
-      expect(authenticationService.register).toHaveBeenCalledWith(mockEmail, mockPassword);
+      expect(authenticationService.register).toHaveBeenCalledWith(
+        mockEmail,
+        mockPassword,
+      );
     });
 
     it('should add info to webapp storage', async () => {
@@ -77,7 +86,7 @@ describe('RegisterUserUseCase', () => {
       expect(localStorage.getItem('expiresIn')).toBe(mockExpiresIn);
     });
 
-    it('should create new user via UserService', async () =>{
+    it('should create new user via UserService', async () => {
       await registerUserUseCase.execute(mockVisitor);
       expect(userService.create).toHaveBeenCalledWith(mockUser, mockJwtToken);
     });
@@ -96,19 +105,28 @@ describe('RegisterUserUseCase', () => {
   describe('when visitor provides an already taken email', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers : [
+        providers: [
           RegisterUserUseCase,
           UserService,
           UserStore,
           Router,
-          { provide: AuthenticationService, useValue: { register: jest.fn().mockReturnValue(of(new EmailAlreadyTakenError(mockEmail)))} },
-        ]
+          {
+            provide: AuthenticationService,
+            useValue: {
+              register: jest
+                .fn()
+                .mockReturnValue(of(new EmailAlreadyTakenError(mockEmail))),
+            },
+          },
+        ],
       });
       registerUserUseCase = TestBed.inject(RegisterUserUseCase);
     });
 
     it('should throw EmailAlreadyTakenError', async () => {
-      await expect(registerUserUseCase.execute(mockVisitor)).rejects.toThrow(EmailAlreadyTakenError);
+      await expect(registerUserUseCase.execute(mockVisitor)).rejects.toThrow(
+        EmailAlreadyTakenError,
+      );
     });
   });
 });

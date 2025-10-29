@@ -7,26 +7,25 @@ import { firstValueFrom } from 'rxjs';
 import { InvalidCredentialError } from './invalid-credential.error';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginUserUseCase {
-
   readonly #authenticationService = inject(AuthenticationService);
   readonly #userService = inject(UserService);
   readonly #userStore = inject(UserStore);
   readonly #router = inject(Router);
 
-  async execute(email: string, password: string): Promise<void>{
-
+  async execute(email: string, password: string): Promise<void> {
     // 1. Authenticate user
-    const authResponse = await firstValueFrom(this.#authenticationService.login(email, password));
+    const authResponse = await firstValueFrom(
+      this.#authenticationService.login(email, password),
+    );
 
     // 2. Throw an error if credentials are invalid
-    if(authResponse instanceof InvalidCredentialError){
+    if (authResponse instanceof InvalidCredentialError) {
       throw authResponse;
     }
 
-    
     // 3. Store user authentication data in webapp storage
     const { jwtToken, jwtRefreshToken, expiresIn, userId } = authResponse;
 
@@ -35,13 +34,14 @@ export class LoginUserUseCase {
     localStorage.setItem('expiresIn', expiresIn);
 
     // 4. Get user data from backend server
-    const user = await firstValueFrom(this.#userService.fetch(userId, jwtToken));
+    const user = await firstValueFrom(
+      this.#userService.fetch(userId, jwtToken),
+    );
 
     // 5. Store response in our global store
     this.#userStore.load(user);
 
     // 6. redirect user to Dashboard page
     this.#router.navigate(['/app/dashboard']);
-
   }
 }

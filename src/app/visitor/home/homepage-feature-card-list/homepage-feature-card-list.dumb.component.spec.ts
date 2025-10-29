@@ -22,7 +22,7 @@ describe('HomepageFeatureCardListDumbComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HomepageFeatureCardListDumbComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomepageFeatureCardListDumbComponent);

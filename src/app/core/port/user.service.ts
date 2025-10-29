@@ -5,12 +5,10 @@ import { User } from '../entity/user.interface';
 
 @Injectable({
   providedIn: 'root',
-  useClass: UserFirebaseService
+  useClass: UserFirebaseService,
 })
 export abstract class UserService {
+  abstract create(user: User, bearerToken: string): Observable<void>;
 
-  abstract create(user : User, bearerToken : string):Observable<void>;
-
-  abstract fetch(userId : string, bearerToken : string):Observable<User>;
-  
+  abstract fetch(userId: string, bearerToken: string): Observable<User>;
 }

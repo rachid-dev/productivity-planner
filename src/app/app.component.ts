@@ -7,6 +7,6 @@ import { NavbarSmartComponent } from './core/component/navbar/navbar.smart.compo
   imports: [RouterOutlet, NavbarSmartComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {}

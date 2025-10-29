@@ -20,7 +20,7 @@ describe('HomeBannerDumbComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HomeBannerDumbComponent],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeBannerDumbComponent);

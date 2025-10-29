@@ -1,13 +1,12 @@
 import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SignupPageComponent } from './signup.page.component';
-import { RegisterUserUseCase } from './domain/register-user.use-case';
 import { Visitor } from '@app/core/entity/user.interface';
-
+import { RegisterUserUseCase } from './domain/register-user.use-case';
+import { SignupPageComponent } from './signup.page.component';
 
 describe('SignupPageComponent', () => {
-  let registerUserUseCase : RegisterUserUseCase;
+  let registerUserUseCase: RegisterUserUseCase;
   let component: SignupPageComponent;
   let fixture: ComponentFixture<SignupPageComponent>;
 
@@ -22,10 +21,12 @@ describe('SignupPageComponent', () => {
       imports: [SignupPageComponent],
       providers: [
         provideZonelessChangeDetection(),
-        { provide: RegisterUserUseCase, useValue: {execute : jest.fn().mockResolvedValue(Promise.resolve())}},
-      ]
-    })
-    .compileComponents();
+        {
+          provide: RegisterUserUseCase,
+          useValue: { execute: jest.fn().mockResolvedValue(Promise.resolve()) },
+        },
+      ],
+    }).compileComponents();
 
     registerUserUseCase = TestBed.inject(RegisterUserUseCase);
     fixture = TestBed.createComponent(SignupPageComponent);
@@ -35,8 +36,12 @@ describe('SignupPageComponent', () => {
     name = fixture.debugElement.query(By.css('[data-testid="name"]'));
     email = fixture.debugElement.query(By.css('[data-testid="email"]'));
     password = fixture.debugElement.query(By.css('[data-testid="password"]'));
-    confirmPassword = fixture.debugElement.query(By.css('[data-testid="confirm-password"]'));
-    submitButton = fixture.debugElement.query(By.css('[data-testid="submit-button"]'));
+    confirmPassword = fixture.debugElement.query(
+      By.css('[data-testid="confirm-password"]'),
+    );
+    submitButton = fixture.debugElement.query(
+      By.css('[data-testid="submit-button"]'),
+    );
   });
 
   it('should create', () => {
@@ -54,7 +59,7 @@ describe('SignupPageComponent', () => {
     it('should diplay a submit button', () => {
       expect(submitButton).toBeTruthy();
     });
-  })
+  });
 
   describe('when user interact with name field', () => {
     it('should display error message when field is empty', () => {
@@ -62,10 +67,12 @@ describe('SignupPageComponent', () => {
       name.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-name-required"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-name-required"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
-      expect(errorMessage).toBe('Name is required.');
+      expect(errorMessage).toBe(' Name is required. ');
     });
 
     it('should display error message when field contain less than 3 characters', () => {
@@ -73,7 +80,9 @@ describe('SignupPageComponent', () => {
       name.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-name-minlength"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-name-minlength"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
       expect(errorMessage).toContain('Name must contain at least 3 caracters.');
@@ -84,7 +93,9 @@ describe('SignupPageComponent', () => {
       name.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-name-maxlength"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-name-maxlength"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
       expect(errorMessage).toContain('Name must contain maximum 20 caracters.');
@@ -95,7 +106,9 @@ describe('SignupPageComponent', () => {
       name.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-name-pattern"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-name-pattern"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
       expect(errorMessage).toContain('Name must contain only letters.');
@@ -108,7 +121,9 @@ describe('SignupPageComponent', () => {
       email.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-email-required"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-email-required"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
       expect(errorMessage).toContain('Email is required.');
@@ -119,7 +134,9 @@ describe('SignupPageComponent', () => {
       email.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-email-pattern"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-email-pattern"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
       expect(errorMessage).toContain('Email must be valid.');
@@ -132,7 +149,9 @@ describe('SignupPageComponent', () => {
       password.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-password-required"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-password-required"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
       expect(errorMessage).toContain('Password is required.');
@@ -143,10 +162,14 @@ describe('SignupPageComponent', () => {
       password.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-password-minlength"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-password-minlength"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
-      expect(errorMessage).toContain('Password must contain at least 8 characters.');
+      expect(errorMessage).toContain(
+        'Password must contain at least 8 characters.',
+      );
     });
 
     it('should display error message when field do not contain at least 1 uppercase character', () => {
@@ -154,10 +177,14 @@ describe('SignupPageComponent', () => {
       password.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-password-pattern"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-password-pattern"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
-      expect(errorMessage).toContain('Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (@$!%*?&).');
+      expect(errorMessage).toContain(
+        'Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (@$!%*?&).',
+      );
     });
 
     it('should display error message when field do not contain at least 1 lowercase character', () => {
@@ -165,10 +192,14 @@ describe('SignupPageComponent', () => {
       password.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-password-pattern"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-password-pattern"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
-      expect(errorMessage).toContain('Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (@$!%*?&).');
+      expect(errorMessage).toContain(
+        'Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (@$!%*?&).',
+      );
     });
 
     it('should display error message when field do not contain at least 1 digit', () => {
@@ -176,10 +207,14 @@ describe('SignupPageComponent', () => {
       password.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-password-pattern"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-password-pattern"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
-      expect(errorMessage).toContain('Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (@$!%*?&).');
+      expect(errorMessage).toContain(
+        'Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (@$!%*?&).',
+      );
     });
 
     it('should display error message when field do not contain at least 1 of the following special characters : @$!%*?&', () => {
@@ -187,10 +222,14 @@ describe('SignupPageComponent', () => {
       password.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-password-pattern"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-password-pattern"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
-      expect(errorMessage).toContain('Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (@$!%*?&).');
+      expect(errorMessage).toContain(
+        'Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character (@$!%*?&).',
+      );
     });
   });
 
@@ -202,7 +241,9 @@ describe('SignupPageComponent', () => {
       confirmPassword.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const error = fixture.debugElement.query(By.css('[data-testid="error-confirm-password-match"]'));
+      const error = fixture.debugElement.query(
+        By.css('[data-testid="error-confirm-password-match"]'),
+      );
       const errorMessage = error.nativeElement.textContent;
 
       expect(errorMessage).toContain('Passwords do not match.');
@@ -212,20 +253,20 @@ describe('SignupPageComponent', () => {
   describe('when visitor submits a valid signup form', () => {
     it('should call #registerUserUseCase with correct visitor informations', () => {
       // Arrange
-      name.nativeElement.value = "John";
+      name.nativeElement.value = 'John';
       name.nativeElement.dispatchEvent(new Event('input'));
-      email.nativeElement.value = "john.doe@acme.com";
+      email.nativeElement.value = 'john.doe@acme.com';
       email.nativeElement.dispatchEvent(new Event('input'));
-      password.nativeElement.value = "Azerty1@";
+      password.nativeElement.value = 'Azerty1@';
       password.nativeElement.dispatchEvent(new Event('input'));
-      confirmPassword.nativeElement.value = "Azerty1@";
+      confirmPassword.nativeElement.value = 'Azerty1@';
       confirmPassword.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      const validVisitorInfo : Visitor = {
-        name : name.nativeElement.value,
-        email : email.nativeElement.value,
-        password : password.nativeElement.value
+      const validVisitorInfo: Visitor = {
+        name: name.nativeElement.value,
+        email: email.nativeElement.value,
+        password: password.nativeElement.value,
       };
 
       // Act
@@ -234,24 +275,25 @@ describe('SignupPageComponent', () => {
 
       // Assert
       expect(registerUserUseCase.execute).toHaveBeenCalledTimes(1);
-      expect(registerUserUseCase.execute).toHaveBeenCalledWith(validVisitorInfo);
+      expect(registerUserUseCase.execute).toHaveBeenCalledWith(
+        validVisitorInfo,
+      );
     });
   });
 
   describe('when visitor submits an invalid signup form', () => {
     it('should not call #registerUserUseCase', () => {
-       // Arrange
-       name.nativeElement.value = "invalid-name";
-       name.nativeElement.dispatchEvent(new Event('input'));
-       fixture.detectChanges();
- 
-       // Act
-       submitButton.nativeElement.click();
-       fixture.detectChanges();
- 
-       // Assert
-       expect(registerUserUseCase.execute).not.toHaveBeenCalled();
+      // Arrange
+      name.nativeElement.value = 'invalid-name';
+      name.nativeElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      // Act
+      submitButton.nativeElement.click();
+      fixture.detectChanges();
+
+      // Assert
+      expect(registerUserUseCase.execute).not.toHaveBeenCalled();
     });
   });
-  
 });

@@ -10,10 +10,10 @@ import { InvalidCredentialError } from './invalid-credential.error';
 
 describe('LoginUserUseCaseService', () => {
   let loginUserUseCase: LoginUserUseCase;
-  let authenticationService : AuthenticationService;
-  let userService : UserService;
-  let userStore : UserStore;
-  let router : Router;
+  let authenticationService: AuthenticationService;
+  let userService: UserService;
+  let userStore: UserStore;
+  let router: Router;
 
   const mockUserId = '123';
   const mockJwtToken = 'jwt-token';
@@ -25,8 +25,8 @@ describe('LoginUserUseCaseService', () => {
     jwtToken: mockJwtToken,
     jwtRefreshToken: mockJwtRefreshToken,
     expiresIn: mockExpiresIn,
-  }
-  
+  };
+
   const mockUser = { id: mockUserId, name: 'John Doe' };
 
   beforeEach(() => {
@@ -34,19 +34,26 @@ describe('LoginUserUseCaseService', () => {
   });
 
   describe('when user provides valid credentials', () => {
-    
-    const email = "john.doe@acme.com";
-    const password = "Azerty1@";
+    const email = 'john.doe@acme.com';
+    const password = 'Azerty1@';
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers : [
+        providers: [
           LoginUserUseCase,
-          { provide: AuthenticationService, useValue: { login: jest.fn().mockReturnValue(of(mockLoginPayload))}},
-          { provide: UserService, useValue: { fetch: jest.fn().mockReturnValue(of(mockUser))}},
-          { provide: UserStore, useValue: { load: jest.fn() }},
-          { provide: Router, useValue: { navigate: jest.fn() }},
-        ]
+          {
+            provide: AuthenticationService,
+            useValue: {
+              login: jest.fn().mockReturnValue(of(mockLoginPayload)),
+            },
+          },
+          {
+            provide: UserService,
+            useValue: { fetch: jest.fn().mockReturnValue(of(mockUser)) },
+          },
+          { provide: UserStore, useValue: { load: jest.fn() } },
+          { provide: Router, useValue: { navigate: jest.fn() } },
+        ],
       });
       loginUserUseCase = TestBed.inject(LoginUserUseCase);
       authenticationService = TestBed.inject(AuthenticationService);
@@ -57,7 +64,7 @@ describe('LoginUserUseCaseService', () => {
 
     it('should authenticate the user via AuthenticationService', async () => {
       await loginUserUseCase.execute(email, password);
-      expect(authenticationService.login).toHaveBeenCalledWith(email, password);   
+      expect(authenticationService.login).toHaveBeenCalledWith(email, password);
     });
 
     it('should store jwt tokens in localStorage', async () => {
@@ -84,23 +91,30 @@ describe('LoginUserUseCaseService', () => {
   });
 
   describe('when user provides invalid credentials', () => {
-    
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers : [
+        providers: [
           LoginUserUseCase,
           Router,
           UserStore,
           UserService,
-          { provide: AuthenticationService, useValue: { login: jest.fn().mockReturnValue(of(new InvalidCredentialError()))}},
-
-        ]
+          {
+            provide: AuthenticationService,
+            useValue: {
+              login: jest
+                .fn()
+                .mockReturnValue(of(new InvalidCredentialError())),
+            },
+          },
+        ],
       });
       loginUserUseCase = TestBed.inject(LoginUserUseCase);
     });
 
     it('should throw InvalidCredentialError', async () => {
-      await expect(loginUserUseCase.execute("invalid-email", "invalid-password")).rejects.toThrow(InvalidCredentialError);
+      await expect(
+        loginUserUseCase.execute('invalid-email', 'invalid-password'),
+      ).rejects.toThrow(InvalidCredentialError);
     });
   });
 });
