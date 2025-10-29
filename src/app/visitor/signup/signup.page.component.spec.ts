@@ -1,9 +1,9 @@
 import { DebugElement, provideZonelessChangeDetection } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SignupPageComponent } from './signup.page.component';
-import { RegisterUserUseCase } from './domain/register-user.use-case';
 import { Visitor } from '@app/core/entity/user.interface';
+import { RegisterUserUseCase } from './domain/register-user.use-case';
+import { SignupPageComponent } from './signup.page.component';
 
 describe('SignupPageComponent', () => {
   let registerUserUseCase: RegisterUserUseCase;
@@ -72,7 +72,7 @@ describe('SignupPageComponent', () => {
       );
       const errorMessage = error.nativeElement.textContent;
 
-      expect(errorMessage).toBe('Name is required.');
+      expect(errorMessage).toBe(' Name is required. ');
     });
 
     it('should display error message when field contain less than 3 characters', () => {
