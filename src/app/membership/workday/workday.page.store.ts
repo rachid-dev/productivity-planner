@@ -15,6 +15,7 @@ import {
   getTaskEmojiStatus,
   isTaskCompleted,
   MAXIMUM_POMODORO_DURATION,
+  PomodoroList,
   Task,
   TaskList,
 } from './task.model';
@@ -80,7 +81,7 @@ export const WorkdayStore = signalStore(
 
           patchState(store, { progress: elapsedSeconds });
           patchState(store, (state) => {
-            // Update current pomodoro time
+            // Update current pomodoro time immutably so signals detect the change
             const task = getActiveTask(state.taskList);
             const taskIndex = getActiveTaskIndex(state.taskList);
             if (!task) {
@@ -92,12 +93,22 @@ export const WorkdayStore = signalStore(
               throw new Error('No active pomodoro found');
             }
 
-            task.pomodoroList[pomodoroIndex] = elapsedSeconds;
-            task.statusEmoji = getTaskEmojiStatus(task);
+            // Create a new pomodoro list and a new task object (immutable update)
+            const newPomodoroList = [...task.pomodoroList] as PomodoroList;
+            newPomodoroList[pomodoroIndex] = elapsedSeconds;
+
+            const updatedTask: Task = {
+              ...task,
+              pomodoroList: newPomodoroList,
+              statusEmoji: getTaskEmojiStatus({
+                ...task,
+                pomodoroList: newPomodoroList,
+              }),
+            };
 
             const taskList: TaskList = store
               .taskList()
-              .toSpliced(taskIndex, 1, task);
+              .toSpliced(taskIndex, 1, updatedTask);
 
             return { taskList };
           });
@@ -143,8 +154,14 @@ export const WorkdayStore = signalStore(
     },
   })),
 );
-function takeUntilDestroyed(
+function takeUntilDestroyed<T>(
   destroyRef: DestroyRef,
-): import('rxjs').OperatorFunction<number, unknown> {
-  throw new Error('Function not implemented.');
+): import('rxjs').OperatorFunction<T, T> {
+  const notifier = new Subject<void>();
+  // notify when the Angular destroy lifecycle triggers
+  destroyRef.onDestroy(() => {
+    notifier.next();
+    notifier.complete();
+  });
+  return takeUntil(notifier) as import('rxjs').OperatorFunction<T, T>;
 }
