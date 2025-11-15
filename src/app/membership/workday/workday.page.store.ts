@@ -79,36 +79,33 @@ export const WorkdayStore = signalStore(
           console.log('elapsedSeconds', elapsedSeconds);
 
           patchState(store, { progress: elapsedSeconds });
+          patchState(store, (state) => {
+            // Update current pomodoro time
+            const task = getActiveTask(state.taskList);
+            const taskIndex = getActiveTaskIndex(state.taskList);
+            if (!task) {
+              throw new Error('No active task found');
+            }
+            const pomodoroIndex = getActivePomodoroIndex(task);
 
-          // Update current pomodoro time
-          const task = getActiveTask(store.taskList());
-          const taskIndex = getActiveTaskIndex(store.taskList());
+            if (pomodoroIndex === -1) {
+              throw new Error('No active pomodoro found');
+            }
 
-          if (!task) {
-            // TODO : No task planned OR all tasks completed
-            throw new Error('No active task found');
-          }
+            task.pomodoroList[pomodoroIndex] = elapsedSeconds;
+            task.statusEmoji = getTaskEmojiStatus(task);
 
-          const pomodoroIndex = getActivePomodoroIndex(task);
+            const taskList: TaskList = store
+              .taskList()
+              .toSpliced(taskIndex, 1, task);
 
-          if (pomodoroIndex === -1) {
-            throw new Error('No active pomodoro found');
-          }
-
-          task.pomodoroList[pomodoroIndex] = elapsedSeconds;
-          task.statusEmoji = getTaskEmojiStatus(task);
-
-          const taskList: TaskList = store
-            .taskList()
-            .toSpliced(taskIndex, 1, task);
-
-          patchState(store, { taskList });
+            return { taskList };
+          });
 
           // Check completed state
           if (elapsedSeconds === MAXIMUM_POMODORO_DURATION) {
             pomodoroCompleted.next();
-            patchState(store, { mode: 'edit' });
-            patchState(store, { progress: 0 });
+            patchState(store, { mode: 'edit', progress: 0 });
           }
         });
     },
