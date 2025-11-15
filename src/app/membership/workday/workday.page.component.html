@@ -18,7 +18,7 @@
               class="progress-bar progress-bar-striped progress-bar-animated bg-success"
               role="progressbar"
               [style.width.%]="store.pomodoroProgress()"
-              aria-valuenow="{{ store.pomodoroProgress() }}"
+              attr.aria-valuenow="{{ store.pomodoroProgress() }}"
               aria-valuemin="0"
               aria-valuemax="100"
             >
