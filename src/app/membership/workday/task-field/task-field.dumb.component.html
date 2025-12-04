@@ -4,8 +4,8 @@
     class="form-select w-auto me-3"
     (change)="updateTaskType(taskType.value)"
   >
-    <option selected value="Get things done">⛳️</option>
-    <option value="Hit the target">🎯</option>
+    <option selected value="Hit the target">🎯</option>
+    <option value="Get things done">⛳️</option>
   </select>
   <input
     #taskTitle
@@ -19,13 +19,14 @@
     <select
       class="form-select w-auto me-3"
       #taskPomodoroCount
+      [value]="task().pomodoroCount"
       (change)="updatePomodoroCount(taskPomodoroCount.value)"
     >
-      <option selected value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
+      <option [value]="1">1</option>
+      <option [value]="2">2</option>
+      <option [value]="3">3</option>
+      <option [value]="4">4</option>
+      <option [value]="5">5</option>
     </select>
     <button class="btn btn-sm">⏸</button>
     <button class="btn btn-sm">⏸</button>
@@ -33,7 +34,7 @@
     <button class="btn btn-sm">⏸</button>
     <button class="btn btn-sm">⏸</button>
     <span class="mx-3 fs-5">0</span>
-    <span>🏁</span>
+    <span>{{ task().statusEmoji }}</span>
   </div>
 
   <button
