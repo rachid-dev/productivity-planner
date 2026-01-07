@@ -25,8 +25,6 @@ export const getEmptyTask = (): Task => ({
   statusEmoji: '🏁',
 });
 
-const WORKDAY_TASK_LIMIT = 6;
-
 export const WorkdayStore = signalStore(
   withState<WorkdayState>({
     workday: Workday.createEmpty(),
