@@ -14,16 +14,15 @@
       @if (workday().isExecutionMode) {
         <div class="d-flex flex-column align-items-center mt-2">
           <div class="progress w-100" data-testid="workday-progress">
-            <div
+            <progress
               class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-              role="progressbar"
               [style.width.%]="pomodoroProgress()"
               attr.aria-valuenow="{{ pomodoroProgress() }}"
               aria-valuemin="0"
               aria-valuemax="100"
             >
               {{ pomodoroProgress() }}%
-            </div>
+            </progress>
           </div>
           <p class="small text-muted mt-2 text-center w-100">
             {{ progress() }} seconds have passed.
